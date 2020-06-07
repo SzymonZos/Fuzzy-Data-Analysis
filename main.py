@@ -1,11 +1,11 @@
 import re
-import pandas as pd
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from contextlib import ExitStack
-from skfuzzy.cluster import cmeans, cmeans_predict
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
+from skfuzzy.cluster import cmeans, cmeans_predict
 
 
 raw_datasets = ["models/" + name for name in ["pima.tr", "pima.te"]]
@@ -61,12 +61,14 @@ def perform_pca(training: np.array, test: np.array, clusters: int) -> list:
     return pca_datasets
 
 
-def plot_datasets(pca_datasets: list, diagnoses: tuple, clusters: int) -> None:
-    for dataset, diagnose in zip(pca_datasets, diagnoses):
+def plot_datasets(pca_datasets: list, diagnoses: tuple,
+                  clusters: int, title: str) -> None:
+    for idx, (dataset, diagnose) in enumerate(zip(pca_datasets, diagnoses)):
         for j in range(clusters):
             plt.plot(dataset[diagnose == j, 0],
                      dataset[diagnose == j, 1], 'o', markersize=3,
                      label='series ' + str(j))
+        plt.title(title + (" training set" if not idx else " test set"))
         plt.legend()
         plt.show()
 
@@ -77,14 +79,15 @@ def main():
     training, test = training_set.values, test_set.values
     diagnoses = read_diagnoses()
     pca_datasets = perform_pca(training, test, 2)
-    plot_datasets(pca_datasets, diagnoses)
+    plot_datasets(pca_datasets, diagnoses, 2, "Default diagnoses")
 
     algorithms = [perform_crisp_clustering, perform_fuzzy_clustering]
     for algorithm in algorithms:
         result = algorithm(training, test, 2, 2)
         print([sum(res) for res in [x == y for x, y in
                                     zip(result, diagnoses)]])
-        plot_datasets(pca_datasets, result, 2)
+        plot_datasets(pca_datasets, result, 2,
+                      "Result of " + algorithm.__name__)
 
 
 if __name__ == "__main__":
