@@ -52,22 +52,39 @@ def perform_fuzzy_clustering(training: np.array, test: np.array,
     return *(np.argmax(label, 0) for label in [train_labels, test_labels]),
 
 
+def perform_pca(training: np.array, test: np.array, clusters: int) -> list:
+    pca = PCA(clusters)
+    pca_datasets = [training, test]
+    for pos, dataset in enumerate(pca_datasets):
+        pca.fit(dataset)
+        pca_datasets[pos] = pca.transform(dataset)
+    return pca_datasets
+
+
+def plot_datasets(pca_datasets: list, diagnoses: tuple) -> None:
+    for dataset, diagnose in zip(pca_datasets, diagnoses):
+        for j in range(2):
+            plt.plot(dataset[diagnose == j, 0],
+                     dataset[diagnose == j, 1], 'o', markersize=3,
+                     label='series ' + str(j))
+        plt.legend()
+        plt.show()
+
+
 def main():
     preprocess_datasets()
     training_set, test_set = import_datasets()
-    algorithms = [perform_crisp_clustering, perform_fuzzy_clustering]
+    training, test = training_set.values, test_set.values
     diagnoses = read_diagnoses()
+    pca_datasets = perform_pca(training, test, 2)
+    plot_datasets(pca_datasets, diagnoses)
+
+    algorithms = [perform_crisp_clustering, perform_fuzzy_clustering]
     for algorithm in algorithms:
-        result = algorithm(training_set.values, test_set.values, 2, 2)
+        result = algorithm(training, test, 2, 2)
         print([sum(res) for res in [x == y for x, y in
                                     zip(result, diagnoses)]])
-
-    # # pca.fit(test)
-    # # test = pca.transform(test)
-    # # pca.fit(train)
-    # # train = pca.transform(train)
-    # pca = PCA(2)
-    # # pca.fit(uu)
+        plot_datasets(pca_datasets, result)
 
 
 if __name__ == "__main__":
