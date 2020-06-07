@@ -2,6 +2,7 @@ import re
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from functools import partial
 from contextlib import ExitStack
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
@@ -39,7 +40,7 @@ def read_diagnoses() -> tuple:
 
 
 def perform_crisp_clustering(training: np.array, test: np.array,
-                             clusters: int, *args) -> tuple:
+                             clusters: int) -> tuple:
     kmeans = KMeans(clusters)
     kmeans.fit(training)
     return kmeans.labels_, kmeans.predict(test)
@@ -52,8 +53,8 @@ def perform_fuzzy_clustering(training: np.array, test: np.array,
     return *(np.argmax(label, 0) for label in [train_labels, test_labels]),
 
 
-def perform_pca(training: np.array, test: np.array, clusters: int) -> list:
-    pca = PCA(clusters)
+def perform_pca(training: np.array, test: np.array) -> list:
+    pca = PCA(2)
     pca_datasets = [training, test]
     for pos, dataset in enumerate(pca_datasets):
         pca.fit(dataset)
@@ -73,21 +74,35 @@ def plot_datasets(pca_datasets: list, diagnoses: tuple,
         plt.show()
 
 
+def test_algorithms(training: np.array, test: np.array, pca_datasets: list,
+                    clusters: int, diagnoses: tuple) -> None:
+    algorithms = [partial(perform_fuzzy_clustering, training,
+                          test, clusters, m) for m in range(2, 5)]
+    algorithms += [partial(perform_crisp_clustering, training, test, clusters)]
+    for algorithm in algorithms:
+        result = algorithm()
+        print([sum(res) for res in [x == y for x, y in
+                                    zip(result, diagnoses)]])
+        title = "Clusters: {}, Function: {}".format(clusters,
+                                                    algorithm.func.__name__)
+        if "fuzzy" in algorithm.func.__name__:
+            title += ", m: {}".format(algorithm.args[-1])
+        plot_datasets(pca_datasets, result, clusters, title)
+
+
 def main():
     preprocess_datasets()
     training_set, test_set = import_datasets()
     training, test = training_set.values, test_set.values
     diagnoses = read_diagnoses()
-    pca_datasets = perform_pca(training, test, 2)
+    pca_datasets = perform_pca(training, test)
     plot_datasets(pca_datasets, diagnoses, 2, "Default diagnoses")
+    for clusters in range(2, 4):
+        test_algorithms(training, test, pca_datasets, clusters, diagnoses)
 
-    algorithms = [perform_crisp_clustering, perform_fuzzy_clustering]
-    for algorithm in algorithms:
-        result = algorithm(training, test, 2, 2)
-        print([sum(res) for res in [x == y for x, y in
-                                    zip(result, diagnoses)]])
-        plot_datasets(pca_datasets, result, 2,
-                      "Result of " + algorithm.__name__)
+
+def foo(x, y):
+    return x + y
 
 
 if __name__ == "__main__":
