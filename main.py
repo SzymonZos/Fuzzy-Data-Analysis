@@ -1,8 +1,8 @@
+import re
 import pandas as pd
 import numpy as np
-import re
-from contextlib import ExitStack
 import matplotlib.pyplot as plt
+from contextlib import ExitStack
 from skfuzzy.cluster import cmeans, cmeans_predict
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
@@ -61,9 +61,9 @@ def perform_pca(training: np.array, test: np.array, clusters: int) -> list:
     return pca_datasets
 
 
-def plot_datasets(pca_datasets: list, diagnoses: tuple) -> None:
+def plot_datasets(pca_datasets: list, diagnoses: tuple, clusters: int) -> None:
     for dataset, diagnose in zip(pca_datasets, diagnoses):
-        for j in range(2):
+        for j in range(clusters):
             plt.plot(dataset[diagnose == j, 0],
                      dataset[diagnose == j, 1], 'o', markersize=3,
                      label='series ' + str(j))
@@ -84,7 +84,7 @@ def main():
         result = algorithm(training, test, 2, 2)
         print([sum(res) for res in [x == y for x, y in
                                     zip(result, diagnoses)]])
-        plot_datasets(pca_datasets, result)
+        plot_datasets(pca_datasets, result, 2)
 
 
 if __name__ == "__main__":
