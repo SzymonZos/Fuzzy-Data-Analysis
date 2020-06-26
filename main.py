@@ -50,9 +50,9 @@ def perform_fuzzy_clustering(training: np.array, test: np.array,
                              clusters: int, m: int) -> tuple:
     center, train_labels = cmeans(training.T, clusters, m, 0.005, 1000)[0:2]
     test_labels = cmeans_predict(test.T, center, m, 0.005, 1000)[0]
-    return *(np.argmax(label, 0) for label in [train_labels, test_labels]),
-    # *((label[1] > 0.2).astype(int) for label in [train_labels, test_labels]),
- 
+    return *((label[1] > 0.2).astype(int) for label in [train_labels, test_labels]),
+    #return *(np.argmax(label, 0) for label in [train_labels, test_labels]),
+
 
 def perform_pca(training: np.array, test: np.array) -> list:
     pca = PCA(2)
@@ -65,6 +65,7 @@ def perform_pca(training: np.array, test: np.array) -> list:
 # np.apply_along_axis(np.bincount, axis=1, arr= test_array,
 #                                           minlength = np.max(test_array) +1)
 # np.bincount(np.argsort(center, 0)).argmax()
+
 
 def plot_datasets(pca_datasets: list, diagnoses: tuple,
                   clusters: int, title: str) -> None:
