@@ -73,6 +73,7 @@ def plot_datasets(pca_datasets: list, diagnoses: tuple,
             plt.plot(dataset[diagnose == j, 0],
                      dataset[diagnose == j, 1], 'o', markersize=3,
                      label='series ' + str(j))
+
         plt.title(title + (" training set" if not idx else " test set"))
         plt.legend()
         plt.show()

@@ -36,6 +36,9 @@ Two clustering algorithms were compared: crisp and fuzzy. Following implementati
 
 
 ## Results
+![Train set](./Default_train.png)
+
+
 
 ## Conclusions
 
