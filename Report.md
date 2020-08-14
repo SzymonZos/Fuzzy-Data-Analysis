@@ -1,110 +1,189 @@
 #  Fuzzy clustering of given data
 
-## Authors
-
-1. Piotr Solarz
-2. Wojciech Weber
-3. Szymon Zosgórnik
-
 ## Task description
 
-* Find clusters on the basis of training data of the database. Use crisp and fuzzy clustering.
-Change parameters of fuzzy and crisp clustering. In this way try to find the optimal solution with the lowest error for test data. In case of number of clusters greater than original diagnoses define your own diagnosis in test data - pretend that you are researchers defining sub-group of the disease. Is it beneficial?
-* Make research documentation at every stage. Make plots of clusters projected on 2-dimensional surface. Using Principal Component Analysis will be the most appreciated.
+* Find clusters on the basis of training data of the database.Use crisp and
+fuzzy clustering. Change parameters of fuzzy and crisp clustering. In this way
+try to find the optimal solution with the lowest error for test data. In case
+of number of clusters greater than original diagnoses define your own diagnosis
+in test data - pretend that you are researchers defining sub-group
+of the disease. Is it beneficial?
+* Make research documentation at every stage. Make plots of clusters projected
+on 2-dimensional surface. Using Principal Component Analysis will be
+the most appreciated.
 
 ## Dataset description
 
 ### Context
 
-This dataset is originally from the National Institute of Diabetes and Digestive and Kidney Diseases. The objective of the dataset is to diagnostically predict whether or not a patient has diabetes, based on certain diagnostic measurements included in the dataset. Several constraints were placed on the selection of these instances from a larger database. In particular, all patients here are females at least 21 years old of Pima Indian heritage.
+This dataset is originally from the National Institute of Diabetes and
+Digestive and Kidney Diseases. The objective of the dataset is to
+diagnostically predict whether or not a patient has diabetes, based on certain
+diagnostic measurements included in the dataset. Several constraints
+were placed on the selection of these instances from a larger database. In
+particular, all patients here are females at least 21 years old of
+Pima Indian heritage.
 
 ### Content
 
-The datasets consists of several medical predictor variables and one target variable - outcome. Predictor variables includes the number of pregnancies the patient has had, plasma glucose concentration 2 hours in an oral glucose tolerance test, diastolic blood pressure (mm Hg), triceps skin fold thickness (mm), 2-hour serum insulin (mu U/ml), BMI (Body mass index), diabetes pedigree function and an age.
+The datasets consists of several medical predictor variables and one target
+variable - outcome. Predictor variables includes the number of pregnancies the
+patient has had, plasma glucose concentration 2 hours in an oral glucose
+tolerance test, diastolic blood pressure (mm Hg), triceps skin fold thickness
+(mm), 2-hour serum insulin (mu U/ml), BMI (Body mass index), diabetes pedigree
+function and an age.
 
 Number of specific values:
 
-* Predictor variables: 8, 7 are compatible (since clustering methods are desired ones, outcome is not used).
+* Predictor variables: 8, 7 are compatible (since clustering methods are
+desired ones, outcome is not used).
 * Original classes: 2.
 * Training examples: 200.
 * Testing examples: 332.
 
 ## Clustering methods
 
-Two clustering algorithms were compared: crisp and fuzzy. Following implementations were chosen: KMeans from sklearn.cluster and cmeans, cmeans_predict from skfuzzy.cluster. Description of these algorithms is shown bellow.
+Two clustering algorithms were compared: crisp and fuzzy. Following
+implementations were chosen: KMeans from sklearn.cluster and cmeans,
+cmeans_predict from skfuzzy.cluster. Description of these algorithms is
+shown bellow.
 
-* Crisp clustering - each data point is assigned to its nearest cluster center (hard membership).
-* Fuzzy clustering - the memberships of clusters are soft. Every data point belongs at some degree to each cluster center. The membership is usually related to the distance between the data point and the cluster center.
-
+* Crisp clustering - each data point is assigned to its nearest cluster center
+(hard membership).
+* Fuzzy clustering - the memberships of clusters are soft. Every data point
+belongs at some degree to each cluster center. The membership is usually
+related to the distance between the data point and the cluster center.
 
 ## Results
 
-The threshold for visualizing fuzzy clustering was set to default 0.5. Error was calculated only for 2 clusters due to compatibility connected with original data.
+The threshold for visualizing fuzzy clustering was set to default 0.5. Error
+was calculated only for 2 clusters due to compatibility connected with
+original data.
 
 ![Default training set](figures/default_train.png "Default training set")
 
 ![Default test set](figures/default_test.png "Default test set")
 
-![2 clusters, crisp training set](figures/2_crisp_train.png "2 clusters, crisp training set")
+![2 clusters, crisp training set](figures/2_crisp_train.png
+"2 clusters, crisp training set")
+
 Error = 25%
 
-![2 clusters, crisp test set](figures/2_crisp_test.png "2 clusters, crisp test set")
+![2 clusters, crisp test set](figures/2_crisp_test.png
+"2 clusters, crisp test set")
+
 Error = 22.6%
 
-![2 clusters, m = 2, fuzzy training set](figures/2_fuzzy_m2_train.png "2 clusters, m = 2, fuzzy training set")
+![2 clusters, m = 2, fuzzy training set](figures/2_fuzzy_m2_train.png
+"2clusters, m = 2, fuzzy training set")
+
 Error = 25%
 
-![2 clusters, m = 2, fuzzy test set](figures/2_fuzzy_m2_test.png "2 clusters, m = 2, fuzzy test set")
+![2 clusters, m = 2, fuzzy test set](figures/2_fuzzy_m2_test.png
+"2 clusters, m = 2, fuzzy test set")
+
 Error = 24.1%
 
-![2 clusters, m = 3, fuzzy training set](figures/2_fuzzy_m3_train.png "2 clusters, m = 3, fuzzy training set")
+![2 clusters, m = 3, fuzzy training set](figures/2_fuzzy_m3_train.png
+"2 clusters, m = 3, fuzzy training set")
+
 Error = 24.5%
 
-![2 clusters, m = 3, fuzzy test set](figures/2_fuzzy_m3_test.png "2 clusters, m = 3, fuzzy test set")
+![2 clusters, m = 3, fuzzy test set](figures/2_fuzzy_m3_test.png
+"2 clusters, m = 3, fuzzy test set")
+
 Error = 25%
 
-![2 clusters, m = 4, fuzzy training set](figures/2_fuzzy_m4_train.png "2 clusters, m = 4, fuzzy training set")
+![2 clusters, m = 4, fuzzy training set](figures/2_fuzzy_m4_train.png
+"2 clusters, m = 4, fuzzy training set")
+
 Error = 26%
 
-![2 clusters, m = 4, fuzzy test set](figures/2_fuzzy_m4_test.png "2 clusters, m = 4, fuzzy test set")
+![2 clusters, m = 4, fuzzy test set](figures/2_fuzzy_m4_test.png
+"2 clusters, m = 4, fuzzy test set")
+
 Error = 22.9%
 
-![3 clusters, crisp training set](figures/3_crisp_train.png "3 clusters, crisp training set")
-![3 clusters, crisp test set](figures/3_crisp_test.png "3 clusters, crisp test set")
-![3 clusters, m = 2, fuzzy training set](figures/3_fuzzy_m2_train.png "3 clusters, m = 2, fuzzy training set")
-![3 clusters, m = 2, fuzzy test set](figures/3_fuzzy_m2_test.png "3 clusters, m = 2, fuzzy test set")
-![3 clusters, m = 3, fuzzy training set](figures/3_fuzzy_m3_train.png "3 clusters, m = 3, fuzzy training set")
-![3 clusters, m = 3, fuzzy test set](figures/3_fuzzy_m3_test.png "3 clusters, m = 3, fuzzy test set")
-![3 clusters, m = 4, fuzzy training set](figures/3_fuzzy_m4_train.png "3 clusters, m = 4, fuzzy training set")
-![3 clusters, m = 4, fuzzy test set](figures/3_fuzzy_m4_test.png "3 clusters, m = 4, fuzzy test set")
+![3 clusters, crisp training set](figures/3_crisp_train.png
+"3 clusters, crisp training set")
+
+![3 clusters, crisp test set](figures/3_crisp_test.png
+"3 clusters, crisp test set")
+
+![3 clusters, m = 2, fuzzy training set](figures/3_fuzzy_m2_train.png
+"3 clusters, m = 2, fuzzy training set")
+
+![3 clusters, m = 2, fuzzy test set](figures/3_fuzzy_m2_test.png
+"3 clusters, m = 2, fuzzy test set")
+
+![3 clusters, m = 3, fuzzy training set](figures/3_fuzzy_m3_train.png
+"3 clusters, m = 3, fuzzy training set")
+
+![3 clusters, m = 3, fuzzy test set](figures/3_fuzzy_m3_test.png
+"3 clusters, m = 3, fuzzy test set")
+
+![3 clusters, m = 4, fuzzy training set](figures/3_fuzzy_m4_train.png
+"3 clusters, m = 4, fuzzy training set")
+
+![3 clusters, m = 4, fuzzy test set](figures/3_fuzzy_m4_test.png
+"3 clusters, m = 4, fuzzy test set")
 
 ## Results for non-standard threshold
 
 The threshold for visualizing fuzzy clustering was changed from 0.5 to 0.2.
 
-![2 clusters, m = 2, fuzzy training set](figures/threshold/2_fuzzy_m2_train.png "2 clusters, m = 2, fuzzy training set")
+![2 clusters, m = 2, fuzzy training set](figures/threshold/2_fuzzy_m2_train.png
+"2 clusters, m = 2, fuzzy training set")
 
-![2 clusters, m = 2, fuzzy test set](figures/threshold/2_fuzzy_m2_test.png "2 clusters, m = 2, fuzzy test set")
+![2 clusters, m = 2, fuzzy test set](figures/threshold/2_fuzzy_m2_test.png
+"2 clusters, m = 2, fuzzy test set")
 
-![2 clusters, m = 3, fuzzy training set](figures/threshold/2_fuzzy_m3_train.png "2 clusters, m = 3, fuzzy training set")
-![2 clusters, m = 3, fuzzy test set](figures/threshold/2_fuzzy_m3_test.png "2 clusters, m = 3, fuzzy test set")
-![2 clusters, m = 4, fuzzy training set](figures/threshold/2_fuzzy_m4_train.png "2 clusters, m = 4, fuzzy training set")
-![2 clusters, m = 4, fuzzy test set](figures/threshold/2_fuzzy_m4_test.png "2 clusters, m = 4, fuzzy test set")
-![3 clusters, m = 2, fuzzy training set](figures/threshold/3_fuzzy_m2_train.png "3 clusters, m = 2, fuzzy training set")
-![3 clusters, m = 2, fuzzy test set](figures/threshold/3_fuzzy_m2_test.png "3 clusters, m = 2, fuzzy test set")
-![3 clusters, m = 3, fuzzy training set](figures/threshold/3_fuzzy_m3_train.png "3 clusters, m = 3, fuzzy training set")
-![3 clusters, m = 3, fuzzy test set](figures/threshold/3_fuzzy_m3_test.png "3 clusters, m = 3, fuzzy test set")
-![3 clusters, m = 4, fuzzy training set](figures/threshold/3_fuzzy_m4_train.png "3 clusters, m = 4, fuzzy training set")
-![3 clusters, m = 4, fuzzy test set](figures/threshold/3_fuzzy_m4_test.png "3 clusters, m = 4, fuzzy test set")
+![2 clusters, m = 3, fuzzy training set](figures/threshold/2_fuzzy_m3_train.png
+"2 clusters, m = 3, fuzzy training set")
+
+![2 clusters, m = 3, fuzzy test set](figures/threshold/2_fuzzy_m3_test.png
+"2 clusters, m = 3, fuzzy test set")
+
+![2 clusters, m = 4, fuzzy training set](figures/threshold/2_fuzzy_m4_train.png
+"2 clusters, m = 4, fuzzy training set")
+
+![2 clusters, m = 4, fuzzy test set](figures/threshold/2_fuzzy_m4_test.png
+"2 clusters, m = 4, fuzzy test set")
+
+![3 clusters, m = 2, fuzzy training set](figures/threshold/3_fuzzy_m2_train.png
+"3 clusters, m = 2, fuzzy training set")
+
+![3 clusters, m = 2, fuzzy test set](figures/threshold/3_fuzzy_m2_test.png
+"3 clusters, m = 2, fuzzy test set")
+
+![3 clusters, m = 3, fuzzy training set](figures/threshold/3_fuzzy_m3_train.png 
+"3 clusters, m = 3, fuzzy training set")
+
+![3 clusters, m = 3, fuzzy test set](figures/threshold/3_fuzzy_m3_test.png
+"3 clusters, m = 3, fuzzy test set")
+
+![3 clusters, m = 4, fuzzy training set](figures/threshold/3_fuzzy_m4_train.png
+"3 clusters, m = 4, fuzzy training set")
+
+![3 clusters, m = 4, fuzzy test set](figures/threshold/3_fuzzy_m4_test.png
+"3 clusters, m = 4, fuzzy test set")
 
 ## Summary and conclusions
 
-* Crisp clustering (k-means algorithm) and fuzzy clustering (c-means algorithm) were performed.
-* The m parameter in fuzzy clustering was one of values from set {2, 3, 4}. In case of standard displaying (with 0.5 threshold) no significant difference was observed. However with usage of 0.2 threshold larger m resulted in very unpleasant clustering.  
-* Obtained solutions for crisp and fuzzy clustering are very similar. The error is always around 25%.
-* The third cluster could represent intermediate step between being ill and healthy.
-* Usage of unsupervised learning is not the best approach in this particular task - datasets are not divided into easy to distinguish clusters.
-* One of classification methods (supervised learning) ought to be used in this scenario. It would benefit from output value of given data.
+* Crisp clustering (k-means algorithm) and fuzzy clustering (c-means algorithm)
+were performed.
+* The m parameter in fuzzy clustering was one of values from set {2, 3, 4}.
+In case of standard displaying (with 0.5 threshold) no significant difference
+was observed. However with usage of 0.2 threshold larger m resulted in very
+unpleasant clustering.  
+* Obtained solutions for crisp and fuzzy clustering are very similar. The error
+is always around 25%.
+* The third cluster could represent intermediate step between being ill and
+healthy.
+* Usage of unsupervised learning is not the best approach in this particular
+task - datasets are not divided into easy to distinguish clusters.
+* One of classification methods (supervised learning) ought to be used in this
+scenario. It would benefit from output value of given data.
 
 ## Source code
 
